@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -24,17 +25,31 @@ public class ApplicationUserController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
-    public RedirectView createNewApplicationUser(String username, String password, String dateOfBirth, String bio, String firstName, String lastName) {
+    public RedirectView createNewApplicationUser(String username, String password, String dateOfBirth, String bio, String firstName, String lastName, Model m) {
         System.out.println("You are adding a user");
-        // make the user AND salt and hash the password
-        // this does the salting and hashing for you
+        boolean displayUsernameTaken = false;
+
+        // look for username by username
+        // check DB for username
+        ApplicationUser uniqIfNull = this.applicationUserRepository.findByUsername(username);
+
+        // if null crete new record
+
+        if (uniqIfNull == null) {
+
+            ApplicationUser newUser = new ApplicationUser(username, passwordEncoder.encode(password), dateOfBirth, bio, firstName, lastName);
 
 
-        ApplicationUser newUser = new ApplicationUser(username, passwordEncoder.encode(password), dateOfBirth, bio, firstName, lastName);
+            applicationUserRepository.save(newUser);
+        } else {
+            displayUsernameTaken = true;
+            m.addAttribute("displayUsernameTaken", displayUsernameTaken);
+            return new RedirectView("/signup");
 
+        }
 
-        // save the user to db
-        applicationUserRepository.save(newUser);
+        //else send them to different page
+
 
         // send them back home
         return new RedirectView("/");
@@ -48,6 +63,7 @@ public class ApplicationUserController {
 
     @GetMapping("/signup")
     public String showSignup() {
+
         return "signup";
     }
 
@@ -55,11 +71,29 @@ public class ApplicationUserController {
     public String getHome(Principal p, Model m) {
 
         if (p != null) {
+
+            ApplicationUser applicationUser = this.applicationUserRepository.findByUsername(p.getName());
+
             m.addAttribute("username", p.getName());
+
+            m.addAttribute("applicationUser", applicationUser);
+
         }
 
         return "profile";
     }
 
+    //Tuesday
+    @GetMapping("/users/{id}")
+
+    public String ShowUserDetails(@PathVariable long id, Principal p, Model m) {
+        ApplicationUser theUser = applicationUserRepository.findById(id).get();
+        // set the attribute on Model
+//        m.addAttribute("usernameWeAreVisiting", theUser.getUsername());
+//        m.addAttribute("userIdWeAreVisiting", theUser.id);
+        m.addAttribute("userWeAreVisiting", theUser);
+        m.addAttribute("principalTheAndroid", p.getName());
+        return "userDetails";
+    }
 
 }
