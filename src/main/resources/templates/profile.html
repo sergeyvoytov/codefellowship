@@ -4,17 +4,41 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-Profile
-
-    <h1>Hello, [[${username}]]</h1>
-    <h2> [[${dateOfBirth}]] </h2>
-    <h2> [[${bio}]] </h2>
-    <h2>[[${firstName}]] </h2>
-    <h2>[[${lastName}]] </h2>
-
-
 </head>
-<body>
+
+<nav>
+    <ul>
+        <li>
+            <a href="/">go home</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Log out</a>
+        </li>
+    </ul>
+</nav>
+
+<h1>User's Profile</h1>
+<img src="https://via.placeholder.com/150">
+
+<h1>Hello, [[${username}]]</h1>
+<h2>Your first name is :[[${applicationUser.firstName}]] </h2>
+<h2>Your last name is : [[${applicationUser.lastName}]] </h2>
+<h2>Your date of Birth is: [[${applicationUser.dateOfBirth}]] </h2>
+<h2>Some auto biography: [[${applicationUser.bio}]] </h2>
+
+
+<form action="/postDetails" method="POST">
+    post body <input type="text" name="body">
+    <input type="hidden" name="username">
+    <input type="hidden" name="timestamp">
+    <input type="submit">
+</form>
+<h2> All of your posts </h2>
+<ul>
+    <li th:each="post : ${applicationUser.posts}">
+        <p>[[${post.body}]]</p>
+        <p> [[${post.timestamp}]]</p>
+    </li>
+</ul>
 
 </body>
 </html>
