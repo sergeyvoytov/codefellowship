@@ -4,9 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -19,6 +19,26 @@ public class ApplicationUser implements UserDetails {
     // matches the property on the other class
     @OneToMany(mappedBy = "applicationUser")
     List<Post> posts;
+
+
+    //////////////////  block of code I'm working on
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(
+            name = "connections", // name of the table in sql
+            joinColumns = {@JoinColumn(name = "follower")},
+            inverseJoinColumns = {@JoinColumn(name = "influencer")}
+    )
+    public Set<ApplicationUser> peopleIfollow;
+
+
+    public void startFollowing(ApplicationUser influencer) {
+        this.peopleIfollow.add(influencer);
+    }
+
+    @ManyToMany(mappedBy = "peopleIfollow")
+    public Set<ApplicationUser> peopleThatFollowMe;
+
+    //////////
 
 
     String username;
@@ -63,6 +83,10 @@ public class ApplicationUser implements UserDetails {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public Set<ApplicationUser> getPeopleIfollow() {
+        return this.peopleIfollow;
     }
 
 
