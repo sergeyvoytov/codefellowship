@@ -3,10 +3,10 @@ package com.sergeyvoytov.CodeFellowship.models;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 public class Post {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,12 +17,10 @@ public class Post {
 
     String body;
 
-    public String getTimestamp() {
-        return timestamp;
-    }
 
     String timestamp;
-//    LocalDate timestamp = LocalDate.now();
+
+
 
     public long getId() {
         return Id;
@@ -36,12 +34,17 @@ public class Post {
         return body;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
 
     public Post(ApplicationUser applicationUser, String body) {
         this.applicationUser = applicationUser;
         this.body = body;
         this.timestamp = new Timestamp(System.currentTimeMillis()).toString();
     }
+
     public Post() {
     }
 }

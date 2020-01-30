@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/reset.css"/>
+
 
 </head>
 
 <nav>
     <ul>
-        <li>
-            <a href="/">go home</a>
-            <a href="/profile">Profile</a>
-            <a href="/logout">Log out</a>
-        </li>
+        <li> <a href="/">go home</a></li>
+        <li> <a href="/profile">Profile </a></li>
+        <li><a href="/signup">Sign UP! </a> </li>
+        <li>  <a href="/logout">Log out</a> </li>
     </ul>
 </nav>
 
 <h1>User's Profile</h1>
-<img src="https://via.placeholder.com/150">
+<img src="/images/avatar.jpg">
 
 <h1>Hello, [[${username}]]</h1>
 <h2>Your first name is :[[${applicationUser.firstName}]] </h2>
@@ -25,20 +27,28 @@
 <h2>Your date of Birth is: [[${applicationUser.dateOfBirth}]] </h2>
 <h2>Some auto biography: [[${applicationUser.bio}]] </h2>
 
-
+<hr>
 <form action="/postDetails" method="POST">
     post body <input type="text" name="body">
     <input type="hidden" name="username">
     <input type="hidden" name="timestamp">
     <input type="submit">
 </form>
-<h2> All of your posts </h2>
-<ul>
+<h1> All of your posts </h1>
+<div id="posts">
+<ol>
     <li th:each="post : ${applicationUser.posts}">
         <p>[[${post.body}]]</p>
         <p> [[${post.timestamp}]]</p>
     </li>
-</ul>
+</ol>
+</div>
+
+<h1> You following users and their post: </h1>
+
+
+<p th:text = "${loggedUsersFollower}"></p>
+
 
 </body>
 </html>

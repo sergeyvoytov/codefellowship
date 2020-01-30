@@ -3,6 +3,9 @@ package com.sergeyvoytov.CodeFellowship.controllers;
 import com.sergeyvoytov.CodeFellowship.models.ApplicationUser;
 import com.sergeyvoytov.CodeFellowship.models.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +16,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ApplicationUserController {
@@ -41,6 +47,8 @@ public class ApplicationUserController {
 
 
             applicationUserRepository.save(newUser);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(newUser, null, new ArrayList<>());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             displayUsernameTaken = true;
             m.addAttribute("displayUsernameTaken", displayUsernameTaken);
@@ -48,10 +56,7 @@ public class ApplicationUserController {
 
         }
 
-        //else send them to different page
 
-
-        // send them back home
         return new RedirectView("/");
     }
 
@@ -78,6 +83,10 @@ public class ApplicationUserController {
 
             m.addAttribute("applicationUser", applicationUser);
 
+
+
+            Set<ApplicationUser> loggedUsersFollower= applicationUser.peopleIfollow;
+            m.addAttribute("loggedUsersFollower", loggedUsersFollower);
         }
 
         return "profile";
@@ -95,5 +104,35 @@ public class ApplicationUserController {
         m.addAttribute("principalTheAndroid", p.getName());
         return "userDetails";
     }
+
+
+    @GetMapping("/users/all")
+    public String showAllUsers(Principal p, Model m) {
+
+        List<ApplicationUser> allUsers = applicationUserRepository.findAll();
+
+        m.addAttribute("principalTheAndroid", p.getName());
+        m.addAttribute("allUsers", allUsers);
+
+        return "allusers";
+    }
+
+
+    @PostMapping("/follow")
+    public RedirectView followUser(Principal p, Model m, String username) {
+
+        ApplicationUser loggedInUser = this.applicationUserRepository.findByUsername(p.getName());
+        ApplicationUser followingUser = this.applicationUserRepository.findByUsername(username);
+
+        loggedInUser.startFollowing(followingUser);
+        applicationUserRepository.save(loggedInUser);
+
+
+
+
+
+        return new RedirectView("/profile");
+    }
+
 
 }

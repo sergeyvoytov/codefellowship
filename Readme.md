@@ -14,3 +14,12 @@ Full stack application
 - posts are showing on profile page for logged in user
 - User could access other user public profile by going to the route : /users/{id}
 - users could see their profile info on the page /profile
+
+## Thursday work:
+
+- Created many to many relationship
+- Created separate DB for relationship between following and influential users
+- Implemented follow button on the pages
+- All users that you follow will be output on the profile page
+
+
