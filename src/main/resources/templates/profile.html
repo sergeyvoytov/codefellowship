@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/css/reset.css"/>
-
-
 </head>
 
-<nav>
+<div class="topnav">
+
     <ul>
         <li> <a href="/">go home</a></li>
+        <li> <a href="/users/all">All Users to follow </a></li>
         <li> <a href="/profile">Profile </a></li>
         <li><a href="/signup">Sign UP! </a> </li>
         <li>  <a href="/logout">Log out</a> </li>
     </ul>
-</nav>
+</div>
 
 <h1>User's Profile</h1>
 <img src="/images/avatar.jpg">
@@ -29,26 +29,35 @@
 
 <hr>
 <form action="/postDetails" method="POST">
-    post body <input type="text" name="body">
+    post body <input type="text" name="body" required>
     <input type="hidden" name="username">
     <input type="hidden" name="timestamp">
     <input type="submit">
 </form>
+<hr>
 <h1> All of your posts </h1>
-<div id="posts">
 <ol>
     <li th:each="post : ${applicationUser.posts}">
-        <p>[[${post.body}]]</p>
+        <p> [[${post.body}]]</p>
         <p> [[${post.timestamp}]]</p>
     </li>
 </ol>
 </div>
-
+<hr>
 <h1> You following users and their post: </h1>
 
+<!--    https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html-->
+<th:div th:each="user: ${loggedUsersFollower}">
+    <div>
 
-<p th:text = "${loggedUsersFollower}"></p>
-
+        </p><span th:text="${user.username}"></span></p>
+        <th:div th:each="post: ${user.posts}">
+            </p><span th:text="${post.body}"></span></p>
+            <p><span th:text="${ post.timestamp}"></span></p>
+            <p></p>
+        </th:div>
+    </div>
+</th:div>
 
 </body>
 </html>

@@ -84,8 +84,7 @@ public class ApplicationUserController {
             m.addAttribute("applicationUser", applicationUser);
 
 
-
-            Set<ApplicationUser> loggedUsersFollower= applicationUser.peopleIfollow;
+            Set<ApplicationUser> loggedUsersFollower = applicationUser.peopleIfollow;
             m.addAttribute("loggedUsersFollower", loggedUsersFollower);
         }
 
@@ -126,9 +125,6 @@ public class ApplicationUserController {
 
         loggedInUser.startFollowing(followingUser);
         applicationUserRepository.save(loggedInUser);
-
-
-
 
 
         return new RedirectView("/profile");

@@ -22,5 +22,8 @@ public class HomeController {
         return "home";
     }
 
-
+    @GetMapping("/error")
+    public String getHome(Model m){
+        return "error";
+    }
 }
