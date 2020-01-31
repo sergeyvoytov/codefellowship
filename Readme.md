@@ -22,4 +22,9 @@ Full stack application
 - Implemented follow button on the pages
 - All users that you follow will be output on the profile page
 
+## Friday work
+
+- Added CSS 
+- Worked on outputing followed posts on the profile page
+- Implemented integration testing
 

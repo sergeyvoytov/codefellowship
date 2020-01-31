@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/css/reset.css"/>
 
 
 </head>
 <body>
-<nav>
+<div class="topnav">
+
     <ul>
-        <li> <a href="/">go home</a></li>
-        <li> <a href="/profile">Profile </a></li>
-        <li><a href="/signup">Sign UP! </a> </li>
-        <li>  <a href="/logout">Log out</a> </li>
+        <li><a href="/">go home</a></li>
+        <li><a href="/users/all">All Users to follow </a></li>
+        <li><a href="/profile">Profile </a></li>
+        <li><a href="/signup">Sign UP! </a></li>
+        <li><a href="/logout">Log out</a></li>
     </ul>
-</nav>
+</div>
 
 <h1>This is [[${userWeAreVisiting.username}]]'s detail page, you are visiting them [[${principalTheAndroid}]]</h1>
 
@@ -25,14 +27,14 @@
 <ul>
     <li th:each="post : ${userWeAreVisiting.posts}">
         <p>What was posted: [[${post.body}]]</p>
-        <p>Time of the post:  [[${post.timestamp}]]</p>
+        <p>Time of the post: [[${post.timestamp}]]</p>
     </li>
 </ul>
-
+<hr>
 <form action="/follow" method="POST">
     <input type="hidden" name="username" th:value="${userWeAreVisiting.username}">
 
-    <input class="submit" type="submit" value="FOLLOW" />
+    <input class="submit" type="submit" value="FOLLOW"/>
 
 </form>
 

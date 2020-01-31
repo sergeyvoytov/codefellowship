@@ -9,14 +9,16 @@
 
 </head>
 <body>
-<nav>
+<div class="topnav">
+
     <ul>
         <li> <a href="/">go home</a></li>
+        <li> <a href="/users/all">All Users to follow </a></li>
         <li> <a href="/profile">Profile </a></li>
         <li><a href="/signup">Sign UP! </a> </li>
         <li>  <a href="/logout">Log out</a> </li>
     </ul>
-</nav>
+</div>
 
 <h1>Singup here , Please</h1>
 
@@ -28,13 +30,13 @@
 
 
 
-<form action="/signup" method="POST">
-    name <input type="username" name="username">
-    pass <input type="password" name="password">
-    date of birth <input type="date" name="dateOfBirth">
-    bio <input type="text" name="bio">
-    first name <input type="text" name="firstName">
-    last name <input type="text" name="lastName">
+<form action="/signup" method="POST" required>
+    name <input type="username" name="username" required>
+    pass <input type="password" name="password" required>
+    date of birth <input type="date" name="dateOfBirth" required>
+    bio <input type="text" name="bio" required>
+    first name <input type="text" name="firstName" required>
+    last name <input type="text" name="lastName" required>
     <input type="submit">
 </form>
 </body>

@@ -41,6 +41,10 @@ public class ApplicationUser implements UserDetails {
     //////////
 
 
+    public Set<ApplicationUser> getPeopleThatFollowMe() {
+        return peopleThatFollowMe;
+    }
+
     String username;
     String password;
     String dateOfBirth;
